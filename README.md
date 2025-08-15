@@ -103,7 +103,7 @@ Example Dockerfile:
 
 ```
 FROM certbot/certbot:latest
-RUN pip install git+https://github.com/YOUR_USERNAME/certbot-dns-sweb.git
+RUN pip install git+https://github.com/curserio/certbot-dns-sweb.git
 ```
 
 Example docker-compose.yml:
