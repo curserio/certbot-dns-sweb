@@ -6,8 +6,12 @@ services:
             - ./sweb.ini:/etc/letsencrypt/sweb.ini:ro
             - ./certs:/etc/letsencrypt
         command: >
+            certonly
+            --non-interactive
             --authenticator dns-sweb
             --dns-sweb-credentials /etc/letsencrypt/sweb.ini
             --dns-sweb-propagation-seconds 900
+            --email your@email.com
+            --agree-tos
             -d example.com
             -d '*.example.com'

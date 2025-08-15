@@ -116,9 +116,13 @@ services:
       - ./sweb.ini:/etc/letsencrypt/sweb.ini:ro
       - ./certs:/etc/letsencrypt
     command: >
+      certonly
+      --non-interactive
       --authenticator dns-sweb
       --dns-sweb-credentials /etc/letsencrypt/sweb.ini
       --dns-sweb-propagation-seconds 900
+      --email your@email.com
+      --agree-tos
       -d example.com
       -d '*.example.com'
 ```
@@ -128,7 +132,7 @@ services:
 Using Docker Compose:
 
 ```
-docker compose run --rm certbot certonly
+docker compose run --rm certbot
 ```
 
 This will issue certificates for the domains defined in the compose file:
@@ -140,11 +144,7 @@ example.com
 
 Renew Certificates
 
-To renew existing certificates:
-
-```
-docker compose run --rm certbot renew
-```
+To renew existing certificates change `certonly` to `renew`
 
 Certbot will automatically use the previously issued certificates stored in /etc/letsencrypt.
 
