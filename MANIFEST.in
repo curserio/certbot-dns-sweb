@@ -1,0 +1,3 @@
+include README.md
+include LICENSE
+recursive-include certbot_dns_sweb *.py

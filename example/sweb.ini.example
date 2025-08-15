@@ -1,0 +1,7 @@
+# Copy to sweb.ini and fill one of the options:
+# token    = <YOUR_SPACEWEB_API_TOKEN>
+# login    = <YOUR_LOGIN>
+# password = <YOUR_PASSWORD>
+
+# Optional
+# base_url = https://api.sweb.ru

@@ -38,18 +38,49 @@ pip install git+https://github.com/curserio/certbot-dns-sweb.git
 
 ## ⚙️ Configuration
 
-Create a file sweb.ini:
+Create a credentials file `sweb.ini` with the following fields:
 
+```ini
+# Either provide API token (optional)
+token = your_api_token_here
+
+# Or login and password
+login = your_login_here
+password = your_password_here
+
+# Optional: API base URL (default: https://api.sweb.ru)
+base_url = https://api.sweb.ru
 ```
-dns_sweb_api_user = YOUR_LOGIN
-dns_sweb_api_key = YOUR_API_KEY
-```
+
+Notes:
+
+Either token or login + password must be provided.
+
+base_url is optional and usually not needed.
 
 Set file permissions:
 
 ```
 chmod 600 sweb.ini
 ```
+
+## Propagation Delay
+
+DNS changes may take time to propagate. Use the --dns-sweb-propagation-seconds option to set the wait time before Certbot checks for the TXT record.
+
+For SpaceWeb, it is recommended to wait at least 15 minutes:
+
+```
+certbot certonly \
+--authenticator dns-sweb \
+--dns-sweb-credentials ./sweb.ini \
+--dns-sweb-propagation-seconds 900 \
+-d example.com -d '*.example.com'
+```
+
+900 seconds = 15 minutes
+
+Do not use less than 15 minutes for SpaceWeb to ensure Let's Encrypt can see the TXT record.
 
 ## 🚀 Usage
 
@@ -59,6 +90,7 @@ Example for wildcard + root domain:
 certbot certonly \
   --authenticator dns-sweb \
   --dns-sweb-credentials ./sweb.ini \
+  --dns-sweb-propagation-seconds 900 \
   -d example.com \
   -d '*.example.com'
 ```
@@ -88,6 +120,7 @@ services:
       certbot certonly
       --authenticator dns-sweb
       --dns-sweb-credentials /etc/letsencrypt/sweb.ini
+      --dns-sweb-propagation-seconds 900
       -d example.com
       -d '*.example.com'
 ```
