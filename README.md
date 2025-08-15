@@ -3,7 +3,7 @@
 [![Python](https://img.shields.io/badge/python-3.8%2B-blue)]()
 [![Certbot](https://img.shields.io/badge/certbot-compatible-brightgreen)]()
 
-A Certbot DNS-01 authenticator plugin for SpaceWeb hosting provider using the **official SpaceWeb API**.
+A Certbot DNS-01 authenticator plugin for SpaceWeb (https://sweb.ru/) hosting provider using the **official SpaceWeb API**.
 
 ---
 
