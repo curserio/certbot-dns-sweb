@@ -1,20 +1,13 @@
-version: '3.8'
-
+version: '3'
 services:
-  certbot:
-    image: certbot/certbot:latest
-    container_name: certbot-sweb
-    volumes:
-      - ./sweb.ini:/etc/letsencrypt/sweb.ini:ro
-      - ./letsencrypt:/etc/letsencrypt
-      - ../:/app:ro  # mount the repo root
-    entrypoint: sh
-    command:
-      - -c
-      - >
-        pip install /app &&
-        certbot certonly
-          --authenticator dns-sweb
-          --dns-sweb-credentials /etc/letsencrypt/sweb.ini
-          --dns-sweb-propagation-seconds 900
-          -d example.com -d '*.example.com'
+    certbot:
+        build: .
+        volumes:
+            - ./sweb.ini:/etc/letsencrypt/sweb.ini:ro
+            - ./certs:/etc/letsencrypt
+        command: >
+            --authenticator dns-sweb
+            --dns-sweb-credentials /etc/letsencrypt/sweb.ini
+            --dns-sweb-propagation-seconds 900
+            -d example.com
+            -d '*.example.com'

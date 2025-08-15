@@ -13,29 +13,22 @@ class SwebAPI:
       - Auth: POST https://api.sweb.ru/notAuthorized/ method=getToken
       - DNS:  POST https://api.sweb.ru/domains/dns      methods: info, editTxt
     """
-    def __init__(self, base_url: str = DEFAULT_BASE_URL, token: Optional[str] = None,
-                 login: Optional[str] = None, password: Optional[str] = None, timeout: int = 30):
+    def __init__(self, login: str, password: str, base_url: str = DEFAULT_BASE_URL, timeout: int = 30):
         self.base_url = base_url.rstrip("/")
-        self._token = token
         self._login = login
         self._password = password
+        self._token: Optional[str] = None
         self.timeout = timeout
 
     @property
     def token(self) -> str:
-        if self._token:
-            return self._token
-        if self._login and self._password:
+        if not self._token:
             self._token = self.get_token(self._login, self._password)
-            return self._token
-        raise SwebAPIError("No token or login/password configured for SpaceWeb API")
+        return self._token
 
     def _post(self, path: str, payload: Dict[str, Any], authorized: bool = True) -> Dict[str, Any]:
         url = f"{self.base_url}/{path.strip('/')}"
-        headers = {
-            "Content-Type": "application/json; charset=utf-8",
-            "Accept": "application/json",
-        }
+        headers = {"Content-Type": "application/json; charset=utf-8", "Accept": "application/json"}
         if authorized:
             headers["Authorization"] = f"Bearer {self.token}"
         r = requests.post(url, json=payload, headers=headers, timeout=self.timeout)

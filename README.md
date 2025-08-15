@@ -41,15 +41,8 @@ pip install git+https://github.com/curserio/certbot-dns-sweb.git
 Create a credentials file `sweb.ini` with the following fields:
 
 ```ini
-# Either provide API token (optional)
-token = your_api_token_here
-
-# Or login and password
-login = your_login_here
-password = your_password_here
-
-# Optional: API base URL (default: https://api.sweb.ru)
-base_url = https://api.sweb.ru
+dns_sweb_login = your_login_here
+dns_sweb_password = your_password_here
 ```
 
 Notes:
@@ -103,6 +96,12 @@ Example Dockerfile:
 
 ```
 FROM certbot/certbot:latest
+
+USER root
+
+RUN apk add --no-cache git py3-pip
+
+RUN pip install --upgrade pip
 RUN pip install git+https://github.com/curserio/certbot-dns-sweb.git
 ```
 
@@ -117,10 +116,36 @@ services:
       - ./sweb.ini:/etc/letsencrypt/sweb.ini:ro
       - ./certs:/etc/letsencrypt
     command: >
-      certbot certonly
       --authenticator dns-sweb
       --dns-sweb-credentials /etc/letsencrypt/sweb.ini
       --dns-sweb-propagation-seconds 900
       -d example.com
       -d '*.example.com'
 ```
+
+## Issue Certificates
+
+Using Docker Compose:
+
+```
+docker compose run --rm certbot certonly
+```
+
+This will issue certificates for the domains defined in the compose file:
+
+example.com
+
+*.example.com
+
+
+Renew Certificates
+
+To renew existing certificates:
+
+```
+docker compose run --rm certbot renew
+```
+
+Certbot will automatically use the previously issued certificates stored in /etc/letsencrypt.
+
+You can set up a cron job or systemd timer to periodically run this command to keep certificates up-to-date.
