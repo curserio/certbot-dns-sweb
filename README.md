@@ -45,12 +45,6 @@ dns_sweb_login = your_login_here
 dns_sweb_password = your_password_here
 ```
 
-Notes:
-
-Either token or login + password must be provided.
-
-base_url is optional and usually not needed.
-
 Set file permissions:
 
 ```
