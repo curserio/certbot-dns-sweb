@@ -144,7 +144,16 @@ example.com
 
 Renew Certificates
 
-To renew existing certificates change `certonly` to `renew`
+To renew existing certificates change command to:
+
+```
+command: >
+  certbot renew
+  --non-interactive
+  --authenticator dns-sweb
+  --dns-sweb-credentials /etc/letsencrypt/sweb.ini
+  --dns-sweb-propagation-seconds 900
+```
 
 Certbot will automatically use the previously issued certificates stored in /etc/letsencrypt.
 

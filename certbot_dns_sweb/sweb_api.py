@@ -66,7 +66,7 @@ class SwebAPI:
     def add_acme_txt(self, domain: str, subdomain: str, value: str) -> None:
         # Different panels use different verbs; try a sequence.
         last_error = None
-        for action in ("add", "create", "edit"):
+        for action in ("add", "create", "edit"):  # API add command is "add" (current as of 2025-08-15)
             try:
                 self.edit_txt(domain, action, subdomain, value)
                 return
@@ -113,7 +113,7 @@ class SwebAPI:
 
     def delete_acme_txt(self, domain: str, subdomain: str, value: str) -> None:
         idx = self.find_txt_index(domain, subdomain, value)
-        verbs = ("remove", "delete", "edit")
+        verbs = ("del", "remove", "edit")  # API delete command is "del" (current as of 2025-08-15)
         if idx is not None:
             for action in verbs:
                 try:
