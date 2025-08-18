@@ -102,7 +102,6 @@ RUN pip install git+https://github.com/curserio/certbot-dns-sweb.git
 Example docker-compose.yml:
 
 ```
-version: '3'
 services:
   certbot:
     build: .
